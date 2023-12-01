@@ -25,7 +25,7 @@ class Trebuchet {
         val calibrations = readCalibrationsFromFile()
         // print calibrations
         val calibrationData = calibrations.map { it ->
-            var digitsData = mapOf(
+            val digitsData = mapOf(
                 "one" to "1",
                 "two" to "2",
                 "three" to "3",
