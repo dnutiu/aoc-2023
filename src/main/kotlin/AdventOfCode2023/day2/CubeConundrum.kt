@@ -38,7 +38,7 @@ class CubeConundrum : Puzzle {
             var gamePossible = true
             it.gameData?.forEach { gameData ->
                 val cubes = gameData.split(",")
-                cubes.forEach cubeForEach@ { cubeSet ->
+                cubes.forEach cubeForEach@{ cubeSet ->
                     val cubeData = cubeSet.trim().split(" ")
                     if (cubeData[0].toInt() > gameMaxConstraints.getOrDefault(cubeData[1], Int.MAX_VALUE)) {
                         gamePossible = false
@@ -59,24 +59,26 @@ class CubeConundrum : Puzzle {
             What is the sum of the power of these sets?
          */
         val games = getGameList();
-        var gamePower = 0
-        val gameMaxConstraints = mapOf(
-            "red" to 12,
-            "green" to 13,
-            "blue" to 14
-        )
-        games.forEach {
-
+        val sum = games.map {
+            var gamePower = 0
+            var minimumPerGame = mutableMapOf(
+                "red" to 0,
+                "green" to 0,
+                "blue" to 0
+            )
             it.gameData?.forEach { gameData ->
                 val cubes = gameData.split(",")
-                cubes.forEach cubeForEach@ { cubeSet ->
+                cubes.forEach cubeForEach@{ cubeSet ->
                     val cubeData = cubeSet.trim().split(" ")
-                    println()
+                    minimumPerGame[cubeData[1]] =
+                        Math.max(minimumPerGame[cubeData[1]]!!, cubeData[0].toInt())
                 }
             }
 
-            gamePower = 0
-        }
-        println("The sum of the game ids is $gamePower.")
+            gamePower = minimumPerGame["red"]!! * minimumPerGame["green"]!! * minimumPerGame["blue"]!!
+
+            gamePower
+        }.sum()
+        println("The sum of the game power is $sum.")
     }
 }
