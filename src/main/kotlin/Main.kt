@@ -1,7 +1,7 @@
-import day1.Trebuchet
+import adventOfCode2023.day2.CubeConundrum
 
 fun main(args: Array<String>) {
-    val t = Trebuchet()
-    // t.partOne()
-    t.partTwo()
+    val t = CubeConundrum()
+    t.partOne()
+//    t.partTwo()
 }

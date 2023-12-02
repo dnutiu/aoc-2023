@@ -1,11 +1,11 @@
-package day1
+package adventOfCode2023.day1
 
-import java.io.File
+import adventOfCode.Puzzle
 
-class Trebuchet {
-    fun partOne() {
+class Trebuchet : Puzzle {
+    override fun partOne() {
         // read calibrations from file
-        val calibrations = readCalibrationsFromFile()
+        val calibrations = readInputFromFile("1")
         // print calibrations
         val calibrationData = calibrations.map {
             // replace non-digits with empty string
@@ -20,9 +20,9 @@ class Trebuchet {
         println("Part1: The calibration data is $calibrationData.")
     }
 
-    fun partTwo() {
+    override fun partTwo() {
         // read calibrations from file
-        val calibrations = readCalibrationsFromFile()
+        val calibrations = this.readInputFromFile("1")
         // print calibrations
         val calibrationData = calibrations.map { it ->
             val digitsData = mapOf(
@@ -70,14 +70,6 @@ class Trebuchet {
             firstDigit * 10 + secondDigit
         }.sum()
         println("Part2: The calibration data is $calibrationData.")
-    }
-
-    private fun readCalibrationsFromFile(): List<String> {
-        // read calibrations from resources file
-        this.javaClass.getResourceAsStream("/day1/calibration.txt")?.bufferedReader()?.useLines { lines ->
-            return lines.toList()
-        }
-        throw Exception("Could not read calibrations from file.")
     }
 
 }
