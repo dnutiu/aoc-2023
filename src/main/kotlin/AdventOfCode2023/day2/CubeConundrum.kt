@@ -1,6 +1,6 @@
-package adventOfCode2023.day2
+package AdventOfCode2023.day2
 
-import adventOfCode.Puzzle
+import AdventOfCode.Puzzle
 import java.util.Scanner
 
 class CubeConundrum : Puzzle {
@@ -54,6 +54,29 @@ class CubeConundrum : Puzzle {
     }
 
     override fun partTwo() {
-        TODO("Not yet implemented")
+        /*
+            For each game, find the minimum set of cubes that must have been present.
+            What is the sum of the power of these sets?
+         */
+        val games = getGameList();
+        var gamePower = 0
+        val gameMaxConstraints = mapOf(
+            "red" to 12,
+            "green" to 13,
+            "blue" to 14
+        )
+        games.forEach {
+
+            it.gameData?.forEach { gameData ->
+                val cubes = gameData.split(",")
+                cubes.forEach cubeForEach@ { cubeSet ->
+                    val cubeData = cubeSet.trim().split(" ")
+                    println()
+                }
+            }
+
+            gamePower = 0
+        }
+        println("The sum of the game ids is $gamePower.")
     }
 }

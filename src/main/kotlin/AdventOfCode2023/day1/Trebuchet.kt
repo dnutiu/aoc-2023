@@ -1,6 +1,6 @@
-package adventOfCode2023.day1
+package AdventOfCode2023.day1
 
-import adventOfCode.Puzzle
+import AdventOfCode.Puzzle
 
 class Trebuchet : Puzzle {
     override fun partOne() {

@@ -1,4 +1,4 @@
-package adventOfCode
+package AdventOfCode
 
 interface Puzzle {
 
