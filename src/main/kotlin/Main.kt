@@ -1,7 +1,7 @@
-import AdventOfCode2023.day2.CubeConundrum
+import AdventOfCode2023.day3.GearRatios
 
 fun main(args: Array<String>) {
-    val t = CubeConundrum()
-//    t.partOne()
-     t.partTwo()
+    val t = GearRatios()
+    t.partOne()
+//     t.partTwo()
 }
