@@ -96,7 +96,46 @@ class GearRatios : Puzzle {
     }
 
     override fun partTwo() {
-        // For each gear *, do a box search and multiply numbers to find gear ratio and then sum.
-        TODO("Not yet implemented")
+        val inputData = this.readInputFromFile("3")
+        val foundEngineParts: List<EnginePart> = scanForEnginePats(inputData)
+        var gears: MutableList<MutableSet<EnginePart>> = mutableListOf()
+
+        inputData.forEachIndexed { row, rowElement ->
+            rowElement.forEachIndexed { col, colElement ->
+                if (colElement == '*') {
+                    val enginePartsForGear: MutableSet<EnginePart> = mutableSetOf()
+                    val movesOfXY = listOf(
+                        Pair(col-1, row), // left
+                        Pair(col-1, row-1), // let top
+                        Pair(col, row-1),// top
+                        Pair(col+1, row-1), // right top
+                        Pair(col+1, row), // right
+                        Pair(col+1, row+1), // right bottom
+                        Pair(col, row+1), // bottom
+                        Pair(col-1, row+1) // left bottom
+                    )
+                    movesOfXY.forEach movesForeach@ {
+                        if ((it.second >= 0 && it.second < inputData.size) && (it.first >= 0 && it.first < inputData[it.second].length)) {
+                            val symbol = inputData[it.second][it.first]
+                            if (symbol.isDigit()) {
+                                // search engine part
+                                foundEngineParts.forEach {part ->
+                                    if (part.row == it.second && (it.first >= part.startIndex && it.first <= part.endIndex)) {
+                                        enginePartsForGear.add(part)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    gears.add(enginePartsForGear)
+                }
+            }
+        }
+
+        gears.filter { it.size == 2 }.map {
+            it.map { it.number }.reduce { acc, i -> acc * i }
+        }.sum().let {
+            println("The gear ratio is $it")
+        }
     }
 }
