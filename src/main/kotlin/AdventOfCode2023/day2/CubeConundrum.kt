@@ -3,12 +3,10 @@ package AdventOfCode2023.day2
 import AdventOfCode.Puzzle
 import java.util.Scanner
 
-class CubeConundrum : Puzzle {
+class CubeConundrum : Puzzle("2023", "2") {
 
     private fun getGameList(): List<Game> {
-        val input = this.readInputFromFile("2")
-
-        return input.map {
+        return inputData.map {
             val game = Game(0, null)
             val line = it.split(":", limit = 2)
             // Get game id

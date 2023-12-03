@@ -5,8 +5,7 @@ import AdventOfCode.Puzzle
 data class EnginePart(var number: Int, var row: Int, var startIndex: Int, var endIndex: Int)
 data class Gear(var row: Int, val column: Int, var engineParts: MutableSet<EnginePart>)
 
-class GearRatios : Puzzle {
-
+class GearRatios : Puzzle("2023", "3") {
     private fun scanForEnginePats(data: List<String>): List<EnginePart> {
         val foundEngineParts: MutableList<EnginePart> = mutableListOf()
 
@@ -82,8 +81,6 @@ class GearRatios : Puzzle {
     }
 
     override fun partOne() {
-        val inputData = this.readInputFromFile("3")
-
         val foundEngineParts: List<EnginePart> = scanForEnginePats(inputData)
 
         foundEngineParts.forEach { it ->
@@ -97,7 +94,6 @@ class GearRatios : Puzzle {
     }
 
     override fun partTwo() {
-        val inputData = this.readInputFromFile("3")
         val foundEngineParts: List<EnginePart> = scanForEnginePats(inputData)
         val gears: MutableList<Gear> = mutableListOf()
 

@@ -2,12 +2,10 @@ package AdventOfCode2023.day1
 
 import AdventOfCode.Puzzle
 
-class Trebuchet : Puzzle {
+class Trebuchet : Puzzle("2023", "1") {
     override fun partOne() {
-        // read calibrations from file
-        val calibrations = readInputFromFile("1")
         // print calibrations
-        val calibrationData = calibrations.map {
+        val calibrationData = inputData.map {
             // replace non-digits with empty string
             it.replace(Regex("[^0-9]"), "")
         }.map {
@@ -21,10 +19,8 @@ class Trebuchet : Puzzle {
     }
 
     override fun partTwo() {
-        // read calibrations from file
-        val calibrations = this.readInputFromFile("1")
         // print calibrations
-        val calibrationData = calibrations.map { it ->
+        val calibrationData = inputData.map { it ->
             val digitsData = mapOf(
                 "one" to "1",
                 "two" to "2",
