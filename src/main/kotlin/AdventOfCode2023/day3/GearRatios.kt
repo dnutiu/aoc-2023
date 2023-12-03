@@ -96,6 +96,7 @@ class GearRatios : Puzzle {
     }
 
     override fun partTwo() {
+        // For each gear *, do a box search and multiply numbers to find gear ratio and then sum.
         TODO("Not yet implemented")
     }
 }
