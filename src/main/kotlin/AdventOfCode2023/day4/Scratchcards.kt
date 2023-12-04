@@ -46,6 +46,6 @@ class Scratchcards : Puzzle("2023", "4") {
         val parts = card.split("|")
         val cleanParts = parts[1].split(Regex("\\s")).filter { it != "" }.toSet()
         val winningNumbers = parts[0].split(":")[1].split(Regex("\\s")).filter { it != "" }.toSet()
-        return winningNumbers.filter { number -> cleanParts.contains(number) }.count()
+        return winningNumbers.count { number -> cleanParts.contains(number) }
     }
 }
