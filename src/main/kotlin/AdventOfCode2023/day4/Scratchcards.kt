@@ -9,9 +9,8 @@ class Scratchcards: Puzzle("2023", "4") {
             var sum = 0
             val parts = it.split("|")
             val winningNumbers = parts[0].split(":" )[1].split(Regex("\\s"))
-            // Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
             winningNumbers.filter { it != "" }.forEach {
-                var cleanParts = parts[1].split(Regex("\\s")).filter { it != "" }.toSet()
+                val cleanParts = parts[1].split(Regex("\\s")).filter { it != "" }.toSet()
                 if (cleanParts.contains(it)) {
                     sum += 1
                 }
@@ -23,6 +22,17 @@ class Scratchcards: Puzzle("2023", "4") {
     }
 
     override fun partTwo() {
-        TODO("Not yet implemented")
+        inputData.forEachIndexed { i, it ->
+            println(getWinningNumbersForCard(it))
+        }
+    }
+
+    private fun getWinningNumbersForCard(
+        card: String,
+    ): Int {
+        val parts = card.split("|")
+        val cleanParts = parts[1].split(Regex("\\s")).filter { it != "" }.toSet()
+        val winningNumbers = parts[0].split(":")[1].split(Regex("\\s")).filter { it != "" }.toSet()
+        return winningNumbers.filter { number -> cleanParts.contains(number) }.count()
     }
 }
