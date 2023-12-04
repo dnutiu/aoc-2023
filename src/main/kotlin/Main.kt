@@ -1,7 +1,7 @@
-import AdventOfCode2023.day3.GearRatios
+import AdventOfCode2023.day4.Scratchcards
 
 fun main(args: Array<String>) {
-    val t = GearRatios()
-    // t.partOne()
-    t.partTwo()
+    val t = Scratchcards()
+    t.partOne()
+    //t.partTwo()
 }
