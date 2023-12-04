@@ -3,7 +3,7 @@ package AdventOfCode2023.day4
 import AdventOfCode.Puzzle
 import kotlin.collections.ArrayDeque
 
-data class Card(val number: Int, val data: String)
+data class Card(val number: Int, val wonCards: Int)
 
 class Scratchcards : Puzzle("2023", "4") {
     override fun partOne() {
@@ -26,14 +26,13 @@ class Scratchcards : Puzzle("2023", "4") {
 
     override fun partTwo() {
         var cardsTotal = 0
-        val cardsList = inputData.mapIndexed { index, s -> Card(index + 1, s) }.toList()
+        val cardsList = inputData.mapIndexed { index, s -> Card(index + 1, getWinningNumbersForCard(s)) }.toList()
 
         val stack = ArrayDeque(cardsList)
         while (!stack.isEmpty()) {
             val card = stack.removeFirst()
-            val wonCards = getWinningNumbersForCard(card)
-            if (wonCards > 0) {
-                val wonCardsList = cardsList.slice(card.number..<card.number+wonCards)
+            if (card.wonCards > 0) {
+                val wonCardsList = cardsList.slice(card.number..<card.number+card.wonCards)
                 wonCardsList.forEach { stack.addLast(it) }
             }
             cardsTotal += 1
@@ -42,9 +41,9 @@ class Scratchcards : Puzzle("2023", "4") {
     }
 
     private fun getWinningNumbersForCard(
-        card: Card,
+        card: String,
     ): Int {
-        val parts = card.data.split("|")
+        val parts = card.split("|")
         val cleanParts = parts[1].split(Regex("\\s")).filter { it != "" }.toSet()
         val winningNumbers = parts[0].split(":")[1].split(Regex("\\s")).filter { it != "" }.toSet()
         return winningNumbers.filter { number -> cleanParts.contains(number) }.count()
