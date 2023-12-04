@@ -1,14 +1,17 @@
 package AdventOfCode2023.day4
 
 import AdventOfCode.Puzzle
+import kotlin.collections.ArrayDeque
 
-class Scratchcards: Puzzle("2023", "4") {
+data class Card(val number: Int, val data: String)
+
+class Scratchcards : Puzzle("2023", "4") {
     override fun partOne() {
         var points = 0
         inputData.forEach {
             var sum = 0
             val parts = it.split("|")
-            val winningNumbers = parts[0].split(":" )[1].split(Regex("\\s"))
+            val winningNumbers = parts[0].split(":")[1].split(Regex("\\s"))
             winningNumbers.filter { it != "" }.forEach {
                 val cleanParts = parts[1].split(Regex("\\s")).filter { it != "" }.toSet()
                 if (cleanParts.contains(it)) {
@@ -22,15 +25,26 @@ class Scratchcards: Puzzle("2023", "4") {
     }
 
     override fun partTwo() {
-        inputData.forEachIndexed { i, it ->
-            println(getWinningNumbersForCard(it))
+        var cardsTotal = 0
+        val cardsList = inputData.mapIndexed { index, s -> Card(index + 1, s) }.toList()
+
+        val stack = ArrayDeque(cardsList)
+        while (!stack.isEmpty()) {
+            val card = stack.removeFirst()
+            val wonCards = getWinningNumbersForCard(card)
+            if (wonCards > 0) {
+                val wonCardsList = cardsList.slice(card.number..<card.number+wonCards)
+                wonCardsList.forEach { stack.addLast(it) }
+            }
+            cardsTotal += 1
         }
+        println("Total cards seen $cardsTotal")
     }
 
     private fun getWinningNumbersForCard(
-        card: String,
+        card: Card,
     ): Int {
-        val parts = card.split("|")
+        val parts = card.data.split("|")
         val cleanParts = parts[1].split(Regex("\\s")).filter { it != "" }.toSet()
         val winningNumbers = parts[0].split(":")[1].split(Regex("\\s")).filter { it != "" }.toSet()
         return winningNumbers.filter { number -> cleanParts.contains(number) }.count()
