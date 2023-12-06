@@ -1,7 +1,6 @@
 package AdventOfCode2023.day6
 
 import AdventOfCode.Puzzle
-import java.util.stream.Collectors
 
 data class Race(val raceTime: Long, val distance: Long)
 class WaitForIt : Puzzle("2023", "6") {
