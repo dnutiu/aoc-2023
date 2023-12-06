@@ -1,11 +1,11 @@
-import AdventOfCode2023.day4.Scratchcards
+import AdventOfCode2023.day6.WaitForIt
 import kotlin.system.measureTimeMillis
 
 fun main(args: Array<String>) {
-    val t = Scratchcards()
-    // t.partOne()
+    val t = WaitForIt()
     val time = measureTimeMillis {
-        t.partTwo()
+//        t.partOne()
+         t.partTwo()
     }
     println("Took $time ms.")
 }
