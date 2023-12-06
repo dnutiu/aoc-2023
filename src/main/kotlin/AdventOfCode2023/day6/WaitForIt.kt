@@ -31,8 +31,7 @@ class WaitForIt : Puzzle("2023", "6") {
     override fun partTwo() {
         listOf(Race(49787980, 298118510661181)).map {
             // here we transform a race into a list of all the possible combinations that we can have
-            (1..<it.raceTime).toList().parallelStream().map { time -> Race((it.raceTime - time)* time, it.distance) }.collect(
-                Collectors.toList())
+            (1..<it.raceTime).map { time -> Race((it.raceTime - time)* time, it.distance) }
         }.map {
             // Here we filter out the losing races
             it.parallelStream().filter { it.raceTime > it.distance }.count()
