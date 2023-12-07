@@ -14,6 +14,6 @@ abstract class Puzzle(private val year: String, private val day: String) {
         this.javaClass.getResourceAsStream("/aoc$year/input_day$day.txt")?.bufferedReader()?.useLines { lines ->
             return lines.toList()
         }
-        throw Exception("Could not read calibrations from file.")
+        throw Exception("Could not read input file.")
     }
 }
