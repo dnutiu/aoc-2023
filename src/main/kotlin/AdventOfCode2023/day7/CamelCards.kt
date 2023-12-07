@@ -1,6 +1,7 @@
 package AdventOfCode2023.day7
 
 import AdventOfCode.Puzzle
+import kotlin.math.max
 
 data class Card(val data: String, val bid: Int) {
     constructor(data: List<String>) : this(data[0], data[1].toInt())
@@ -46,6 +47,96 @@ data class Card(val data: String, val bid: Int) {
     }
 }
 
+fun Map<Char, Int>.keyForMaxValue(): Char {
+    var maxValue = entries.first().value
+    var maxKey = entries.first().key
+
+    for (entry in entries) {
+        // skip joker
+        if (entry.value > maxValue) {
+            maxValue = entry.value
+            maxKey = entry.key
+        }
+    }
+    return maxKey
+}
+
+data class CardWithJoker(val data: String, val bid: Int) {
+    constructor(data: List<String>) : this(data[0], data[1].toInt())
+
+    /*
+    32T3K is still the only one pair; it doesn't contain any jokers, so its strength doesn't increase.
+    KK677 is now the only two pair, making it the second-weakest hand.
+    T55J5, KTJJT, and QQQJA are now all four of a kind! T55J5 gets rank 3, QQQJA gets rank 4, and KTJJT gets rank 5.
+     */
+    operator fun compareTo(second: CardWithJoker?): Int {
+        val cardValues = listOf("", "J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A")
+        if (second == null) {
+            return 1
+        }
+
+        // ADD joker to stronger group in map
+        val thisGroups = this.data.groupBy { it }.let {
+            val newMap = mutableMapOf<Char, Int>()
+            var jokerFactor = 0
+            for (entry in it.entries) {
+                if (entry.key == 'J') {
+                    jokerFactor = entry.value.count()
+                    continue
+                }
+                newMap[entry.key] = entry.value.count()
+            }
+            // we have jokers only
+            if (newMap.isEmpty()) {
+                newMap['J'] = 5
+                return@let newMap
+            }
+            val maxEntry: Char = newMap.keyForMaxValue()
+            newMap[maxEntry] = newMap[maxEntry]?.plus(jokerFactor)!!
+            newMap
+        }.map { it.value }.sortedDescending()
+        val secondGroups = second.data.groupBy { it }.let {
+            val newMap = mutableMapOf<Char, Int>()
+            var jokerFactor = 0
+            for (entry in it.entries) {
+                if (entry.key == 'J') {
+                    jokerFactor = entry.value.count()
+                    continue
+                }
+                newMap[entry.key] = entry.value.count()
+            }
+            // we have jokers only
+            if (newMap.isEmpty()) {
+                newMap['J'] = 5
+                return@let newMap
+            }
+            val maxEntry: Char = newMap.keyForMaxValue()
+            newMap[maxEntry] = newMap[maxEntry]?.plus(jokerFactor)!!
+            newMap
+        }.map { it.value }.sortedDescending()
+
+        for (i in thisGroups.indices) {
+            if (thisGroups[i] > secondGroups[i]) {
+                return 1
+            } else if (thisGroups[i] < secondGroups[i]) {
+                return -1
+            }
+        }
+
+        // Compare high cards if the TYPE of hands are the same
+        for (i in this.data.indices) {
+            val firstCardPower = cardValues.indexOf<String>(element = this.data[i].toString())
+            val secondCardPower = cardValues.indexOf<String>(element = second.data[i].toString())
+            if (firstCardPower>secondCardPower) {
+                return 1
+            } else if (firstCardPower < secondCardPower) {
+                return -1
+            }
+        }
+        return 0
+    }
+}
+
 class CamelCards : Puzzle("2023", "7") {
     override fun partOne() {
         inputData.map { Card(it.split(Regex("\\s"))) }.sortedWith(Card::compareTo).mapIndexed { i, card ->
@@ -54,6 +145,8 @@ class CamelCards : Puzzle("2023", "7") {
     }
 
     override fun partTwo() {
-        TODO("Not yet implemented")
+        inputData.map { CardWithJoker(it.split(Regex("\\s"))) }.sortedWith(CardWithJoker::compareTo).mapIndexed { i, card ->
+            card.bid * (i + 1)
+        }.sum().also { println("The sum is $it") }
     }
 }
