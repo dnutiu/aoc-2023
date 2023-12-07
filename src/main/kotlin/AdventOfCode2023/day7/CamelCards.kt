@@ -1,7 +1,6 @@
 package AdventOfCode2023.day7
 
 import AdventOfCode.Puzzle
-import kotlin.math.max
 
 data class Card(val data: String, val bid: Int) {
     constructor(data: List<String>) : this(data[0], data[1].toInt())
@@ -47,7 +46,7 @@ data class Card(val data: String, val bid: Int) {
     }
 }
 
-fun Map<Char, Int>.keyForMaxValue(): Char {
+private fun Map<Char, Int>.keyForMaxValue(): Char {
     var maxValue = entries.first().value
     var maxKey = entries.first().key
 
